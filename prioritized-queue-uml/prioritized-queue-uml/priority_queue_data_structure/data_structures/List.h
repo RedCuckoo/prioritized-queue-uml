@@ -151,7 +151,8 @@ List<value_type>::List() {
 */
 template <class value_type>
 bool List<value_type>::empty() {
-	return (head == tail) ? true : false;
+	//return (head == tail) ? true : false;
+	return size() == 0;
 }
 
 /*!
@@ -163,9 +164,12 @@ template <class value_type>
 unsigned int List<value_type>::size() {
 	Node* temp = head;
 	unsigned int size = 0;
-	while (temp != tail) {
+	while (temp && temp != tail) {
 		size++;
-		temp = temp->next;
+		if(temp->next)
+			temp = temp->next;
+		else
+			break;
 	}
 	return size;
 }
