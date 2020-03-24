@@ -155,7 +155,7 @@ bool Pair<value_type, priority_type>::operator==(const Pair<value_type, priority
 */
 template<class value_type, class priority_type>
 bool Pair<value_type, priority_type>::operator!=(const Pair<value_type, priority_type>& to_compare) const {
-	return (priority != to_compare.getPrior() || value == to_compare.getVal()) ? true : false;
+	return (priority != to_compare.getPrior() || value != to_compare.getVal()) ? true : false;
 }
 
 /*!
