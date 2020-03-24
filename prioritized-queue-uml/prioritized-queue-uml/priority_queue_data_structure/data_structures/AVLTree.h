@@ -528,6 +528,7 @@ void AVLTree<value_type>::erase(AVLTree_iterator<value_type> it) {
 	else if (head->height == 1) {
 		delete head;
 		head = nullptr;
+		--tree_size;
 	}
 	else {
 		Node* temp = head;
