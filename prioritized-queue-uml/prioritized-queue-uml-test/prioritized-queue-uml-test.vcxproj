@@ -149,14 +149,23 @@
   <ItemGroup>
     <ClCompile Include="AVLTreeAndIteratorTest.cpp" />
     <ClCompile Include="ListAndIteratorTest.cpp" />
+    <ClCompile Include="ListPriorQueueTest.cpp" />
+    <ClCompile Include="MathTest.cpp" />
     <ClCompile Include="PairTest.cpp" />
     <ClCompile Include="prioritized-queue-uml-test.cpp" />
+    <ClCompile Include="TreePriorQueueTest.cpp" />
+    <ClCompile Include="VectorPriorQueueTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catch.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\prioritized-queue-uml\prioritized-queue-uml.vcxproj">
+      <Project>{0313b02b-0a85-4741-b466-3315de5a38f1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
