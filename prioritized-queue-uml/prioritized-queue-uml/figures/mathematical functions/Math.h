@@ -7,16 +7,17 @@
 #define MATH_H
 
 #include <vector>
-#include "../../priority_queue_data_structure/data_structures/Pair.h"
-#include "..//Line.h"
-#include "..//Circle.h"
+#include "..\..\priority_queue_data_structure\data_structures\Pair.h"
+#include "..\Line.h"
+#include "..\Circle.h"
 
 /*!
 \brief Solver of square equation
 \details Solves a kvadratic equation, with data types of double. The following parameters are: a * x^2 + b * x + c = 0
 \param double a Coeficient near x^2
 \param double b Coeficient near x^1
-\param double c Coeficient near x^0	\return A vector which contains either none, one or two Pair of numbers. First number is the solution of the equation, second number is not defined.
+\param double c Coeficient near x^0
+\return A vector which contains either none, one or two Pair of numbers. First number is the solution of the equation, second number is not defined.
 */
 std::vector<Pair<double, double>> squareEquationSolver(double a, double b, double c);
 
