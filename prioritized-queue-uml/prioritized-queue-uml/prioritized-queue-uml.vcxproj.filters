@@ -18,63 +18,15 @@
     <ClCompile Include="prioritized-queue-uml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="demo\Demonstration.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="figures\Circle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="figures\Line.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="figures\base figure\Figure.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="figures\mathematical functions\Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="demo\Demonstration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="figures\Circle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="figures\Line.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="figures\base figure\Figure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="figures\mathematical functions\Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="priority_queue_data_structure\ListPriorQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="priority_queue_data_structure\QueueBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="priority_queue_data_structure\TreePriorQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="priority_queue_data_structure\VectorPriorQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="priority_queue_data_structure\data_structures\AVLTree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="priority_queue_data_structure\data_structures\AVLTree_iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="priority_queue_data_structure\data_structures\List.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="priority_queue_data_structure\data_structures\List_iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="priority_queue_data_structure\data_structures\Pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

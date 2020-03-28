@@ -147,13 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AVLTreeAndIteratorTest.cpp" />
-    <ClCompile Include="ListAndIteratorTest.cpp" />
-    <ClCompile Include="ListPriorQueueTest.cpp" />
-    <ClCompile Include="MathTest.cpp" />
-    <ClCompile Include="PairTest.cpp" />
     <ClCompile Include="prioritized-queue-uml-test.cpp" />
-    <ClCompile Include="TreePriorQueueTest.cpp" />
     <ClCompile Include="VectorPriorQueueTest.cpp" />
   </ItemGroup>
   <ItemGroup>

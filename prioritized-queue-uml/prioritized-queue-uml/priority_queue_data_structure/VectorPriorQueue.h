@@ -27,7 +27,14 @@ public:
 */
 template<class value_type>
 void VectorPriorQueue<value_type>::pop() {
-	QueueBase<std::vector<value_type>, value_type>::container.pop_back();
+
+	if (QueueBase<std::vector<value_type>, value_type>::priorities.size()) {
+		QueueBase<std::vector<value_type>, value_type>::prior_container[*--QueueBase<std::vector<value_type>, value_type>::priorities.end()].erase(QueueBase<std::vector<value_type>, value_type>::prior_container[*--QueueBase<std::vector<value_type>, value_type>::priorities.end()].begin());
+		
+		QueueBase<std::vector<value_type>, value_type>::fixPriorities();
+	}
+
+	//QueueBase<std::vector<value_type>, value_type>::container.pop_back();
 }
 
 #endif // !VECTORPRIORQUEUE_H

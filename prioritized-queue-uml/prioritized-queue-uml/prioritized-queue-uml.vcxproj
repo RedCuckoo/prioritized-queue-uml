@@ -27,7 +27,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -150,27 +150,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="demo\Demonstration.cpp" />
-    <ClCompile Include="figures\base figure\Figure.cpp" />
-    <ClCompile Include="figures\Circle.cpp" />
-    <ClCompile Include="figures\Line.cpp" />
-    <ClCompile Include="figures\mathematical functions\Math.cpp" />
     <ClCompile Include="prioritized-queue-uml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="demo\Demonstration.h" />
-    <ClInclude Include="figures\base figure\Figure.h" />
-    <ClInclude Include="figures\Circle.h" />
-    <ClInclude Include="figures\Line.h" />
-    <ClInclude Include="figures\mathematical functions\Math.h" />
     <ClInclude Include="priority_queue_data_structure\data_structures\AVLTree.h" />
-    <ClInclude Include="priority_queue_data_structure\data_structures\AVLTree_iterator.h" />
-    <ClInclude Include="priority_queue_data_structure\data_structures\List.h" />
-    <ClInclude Include="priority_queue_data_structure\data_structures\List_iterator.h" />
-    <ClInclude Include="priority_queue_data_structure\data_structures\Pair.h" />
-    <ClInclude Include="priority_queue_data_structure\ListPriorQueue.h" />
     <ClInclude Include="priority_queue_data_structure\QueueBase.h" />
-    <ClInclude Include="priority_queue_data_structure\TreePriorQueue.h" />
     <ClInclude Include="priority_queue_data_structure\VectorPriorQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
