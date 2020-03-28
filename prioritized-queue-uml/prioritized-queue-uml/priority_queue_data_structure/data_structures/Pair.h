@@ -39,7 +39,7 @@ public:
 	void setVal(const value_type& val);
 	priority_type getPrior() const;
 
-	void setPrior(const value_type& pr);
+	void setPrior(const priority_type& pr);
 	bool operator>(const Pair<value_type, priority_type>& to_compare) const;
 	bool operator>=(const Pair<value_type, priority_type>& to_compare) const;
 	bool operator<(const Pair<value_type, priority_type>& to_compare) const;
