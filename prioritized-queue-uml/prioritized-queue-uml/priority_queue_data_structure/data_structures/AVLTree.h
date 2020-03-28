@@ -11,13 +11,12 @@
 #include <iostream>
 #include <stack>
 #include <vector>
-#include "AVLTree_iterator.h"
 
 /*!
 	\brief Binary search AVL Tree
 	\details A custom implementation of STL library std::map with custom random access iterator
 */
-template <class value_type>
+template <class node_type>
 class AVLTree {
 	/*!
 	\brief A node of binary search AVL tree
@@ -25,7 +24,7 @@ class AVLTree {
 	The value stored depends on the type given to the class AVLTree.
 	*/
 	struct Node {
-		value_type value;
+		node_type value;
 		unsigned int height;
 		Node* left = nullptr, * right = nullptr;
 
@@ -37,9 +36,7 @@ class AVLTree {
 		\param[in] l Pointer to the left child (for the beginning of the list, nullptr is passed)
 		\param[in] r Pointer to the riht child (for the end of the list, pointer to an empty node is passed)
 		*/
-		Node(const value_type& val, unsigned int h = 1, Node * l = nullptr, Node * r = nullptr) : value(val), height(h), left(l), right(r) {	}
-
-		void out();
+		Node(const node_type& val, unsigned int h = 1, Node * l = nullptr, Node * r = nullptr) : value(val), height(h), left(l), right(r) {	}
 	};
 
 	Node* head;
@@ -48,57 +45,52 @@ class AVLTree {
 	bool balanced(Node* to_check);
 	Node* leftRotation(Node* to_rotate);
 	Node* rightRotation(Node* to_rotate);
-	void BST_insert(std::stack < Node*>& way, const value_type& value);
+
+	void insert_back(std::stack < Node*>& way, const node_type& value);
+	
 	void to_balance(std::stack<Node*>& way, bool deletion = false);
 
-	/*!
-	\brief Friended class AVLTree_iterator
-	\details Gives access to private fields of class AVLTree_iterator
-	*/
-	template<class U>
-	friend class AVLTree_iterator;
+	void updateHeights();
 public:
 	/*!
 	\brief Constructor
 	\details Constructor which creates an empty tree, so you can declare a tree, but not define
 	*/
 	AVLTree() : head(nullptr) {		}
-
-	void push(value_type value);
 	unsigned int size();
-	void out(Node* start = nullptr);
-	bool empty();
-	AVLTree_iterator<value_type> begin();
-	AVLTree_iterator<value_type> end();
-	void updateHeights();
-	Node* minNode(std::stack<Node*>& way, Node* to_find);
-	void erase(AVLTree_iterator<value_type> it);
+	void push_back(node_type value);
+	node_type& front();
+	node_type& back();
+	void pop_front();
+	node_type& operator[](unsigned int i);
 };
 
-/*!
-\brief Output stored information
-\details Print stored value of the node to the console, using <iostream> library.
+template <class node_type>
+node_type& AVLTree<node_type>::front() {
+	Node* temp = head;
 
-This function outputs it in the formatted way
-\code
-//For example
-2 4(2) 4 6 7 8
-//value (height) left_child_value right_child_value
-//The value of the node is the pair (2,4), its' height is 2, left child is (4,6), right child is (7,8)
-\endcode
-*/
-template <class value_type>
-void AVLTree<value_type>::Node::out() {
-	std::cout << value << "(" << height << ") : ";
-	if (left)
-		std::cout << left->value;
-	else
-		std::cout << "--";
-	if (right)
-		std::cout << " " << right->value;
-	else
-		std::cout << "--";
-	std::cout << std::endl;
+	if (temp){
+		while (temp->right) {
+			temp = temp->right;
+		}
+	}
+
+	//TODO: throw if nullptr?
+	return temp;
+}
+
+template <class node_type>
+node_type& AVLTree<node_type>::back() {
+	Node* temp = head;
+
+	if (temp) {
+		while (temp->left) {
+			temp = temp->left;
+		}
+	}
+
+	//TODO: throw if nullptr?
+	return temp;
 }
 
 /*!
@@ -108,8 +100,8 @@ void AVLTree<value_type>::Node::out() {
 \param [in] secondNode Pointer to the second element to get height
 \return The maximum height
 */
-template <class value_type>
-unsigned int AVLTree<value_type>::maxHeight(Node* firstNode, Node* secondNode) {
+template <class node_type>
+unsigned int AVLTree<node_type>::maxHeight(Node* firstNode, Node* secondNode) {
 	unsigned int h1 = 0, h2 = 0;
 	if (firstNode)
 		h1 = firstNode->height;
@@ -124,8 +116,8 @@ unsigned int AVLTree<value_type>::maxHeight(Node* firstNode, Node* secondNode) {
 \param to_check A pointer to the Node to be checked
 \return True if the Node is balanced and false value otherwise
 */
-template <class value_type>
-bool AVLTree<value_type>::balanced(Node* to_check) {
+template <class node_type>
+bool AVLTree<node_type>::balanced(Node* to_check) {
 	int h1 = 0, h2 = 0;
 	if (to_check->left)
 		h1 = to_check->left->height;
@@ -153,8 +145,8 @@ This function receives a Node, which definetily has a right child and a right-le
 //		T3		T4										T3		T4
 \endcode
 */
-template <class value_type>
-typename AVLTree<value_type>::Node* AVLTree<value_type>::leftRotation(Node* to_rotate) {
+template <class node_type>
+typename AVLTree<node_type>::Node* AVLTree<node_type>::leftRotation(Node* to_rotate) {
 	Node* child = to_rotate->right;
 	Node* grandchild = child->left;
 
@@ -190,8 +182,8 @@ This function receives a Node, which definetily has a left child and a left-righ
 //		T3		T4										T3		T4
 \endcode
 */
-template <class value_type>
-typename AVLTree<value_type>::Node* AVLTree<value_type>::rightRotation(Node* to_rotate) {
+template <class node_type>
+typename AVLTree<node_type>::Node* AVLTree<node_type>::rightRotation(Node* to_rotate) {
 	Node* child = to_rotate->left;
 	Node* grandchild = child->right;
 
@@ -216,27 +208,18 @@ typename AVLTree<value_type>::Node* AVLTree<value_type>::rightRotation(Node* to_
 \param [out] way The working stack, which will be changed in the function. When finished, it will store the way to the inserted Node. Later it can be used to balancing.
 \param [in] value Non changeable reference to the value, which will be inserted in the tree.
 */
-template <class value_type>
-void AVLTree<value_type>::BST_insert(std::stack < Node*>& way, const value_type& value) {
+template <class node_type>
+void AVLTree<node_type>::insert_back(std::stack < Node*>& way, const node_type& value) {
 	Node* temp = head;
 	while (true) {
 		way.push(temp);
-		if (value <= temp->value) {
-			if (!temp->left) {
-				temp->left = new Node(value);
-				temp = temp->left;
-				break;
-			}
+		if (!temp->left) {
+			temp->left = new Node(value);
 			temp = temp->left;
+			break;
 		}
-		else {
-			if (!temp->right) {
-				temp->right = new Node(value);
-				temp = temp->right;
-				break;
-			}
-			temp = temp->right;
-		}
+
+		temp = temp->left;
 	}
 	way.push(temp);
 }
@@ -270,8 +253,8 @@ The stack has to have more than two elements. It is logical, as there is nothing
 The difference between these balancing is that for insertion, it doesn't matter which height does the node has.
 For deletion you have to take the child with the highest height in the parent, and grandchild with the highest height also.
 */
-template <class value_type>
-void AVLTree<value_type>::to_balance(std::stack<Node*>& way, bool deletion) {
+template <class node_type>
+void AVLTree<node_type>::to_balance(std::stack<Node*>& way, bool deletion) {
 	if (((deletion && way.top() == nullptr) || (!deletion && way.top()->height == 1)) && way.size() > 2) {
 		Node* grandchild, * child, * parChiGra[3];
 		grandchild = way.top();
@@ -367,8 +350,8 @@ void AVLTree<value_type>::to_balance(std::stack<Node*>& way, bool deletion) {
 \details Add elements to the tree and balance the tree
 \param[in] value Value which has to be added to the tree
 */
-template <class value_type>
-void AVLTree<value_type>::push(value_type value) {
+template <class node_type>
+void AVLTree<node_type>::push_back(node_type value) {
 	++tree_size;
 	if (!head) {
 		head = new Node(value);
@@ -376,7 +359,7 @@ void AVLTree<value_type>::push(value_type value) {
 	else {
 		//way to the inserted node
 		std::stack <Node*> way;
-		BST_insert(way, value);
+		insert_back(way, value);
 		updateHeights();
 		to_balance(way);
 	}
@@ -387,8 +370,8 @@ void AVLTree<value_type>::push(value_type value) {
 \details To get the amount of elements of the tree
 \return Size of the tree
 */
-template <class value_type>
-unsigned int AVLTree<value_type>::size() {
+template <class node_type>
+unsigned int AVLTree<node_type>::size() {
 	return tree_size;
 }
 
@@ -396,67 +379,36 @@ unsigned int AVLTree<value_type>::size() {
 \brief Output stored information
 \details Print stored value of the tree to the console, using <iostream> library, with Node::out() formatted value, in iterated way
 */
-template <class value_type>
-void AVLTree<value_type>::out(Node* start) {
-	std::stack<Node*> temp_stack;
-	Node* temp_ptr = head;
+template <class node_type>
+node_type& AVLTree<node_type>::operator[](unsigned int i) {
+	if (tree_size > i) {
+		std::stack<Node*> temp_stack;
+		std::vector<Node*> temp_vec;
+		Node* temp_ptr = head;
 
-	while (!temp_stack.empty() || temp_ptr) {
-		if (temp_ptr) {
-			if (temp_ptr->height == 1) {
-				temp_ptr->out();
-				temp_ptr = nullptr;
-			}
-			else {
+		while (temp_vec.size() != i + 1) {
+			if (temp_ptr) {
 				temp_stack.push(temp_ptr);
 				temp_ptr = temp_ptr->left;
 			}
+			else {
+				temp_ptr = temp_stack.top();
+				temp_stack.pop();
+				temp_vec.push_back(temp_ptr);
+				temp_ptr = temp_ptr->right;
+			}
 		}
-		else {
-			temp_ptr = temp_stack.top();
-			temp_stack.pop();
-			temp_ptr->out();
-			temp_ptr = temp_ptr->right;
-		}
+		return temp_vec.back()->value;
 	}
-}
-
-/*!
-\brief Checks emptiness of the tree
-\details This method checks whether or not current tree is empty
-\return True value if the tree is empty and false value otherwise
-*/
-template <class value_type>
-bool AVLTree<value_type>::empty() {
-	return (!head) ? true : false;
-}
-
-/*!
-\brief Get iterator on the beginning
-\details Method that returns the iterator to the beginning of the list
-\return Iterator to the beginning of the list
-*/
-template <class value_type>
-AVLTree_iterator<value_type> AVLTree<value_type>::begin() {
-	return *AVLTree_iterator<value_type>(this).setFirst();
-}
-
-/*!
-\brief Get iterator on the end
-\details Method that returns the iterator to the end of the list
-\return Iterator to the end of the list
-*/
-template <class value_type>
-AVLTree_iterator<value_type> AVLTree<value_type>::end() {
-	return *AVLTree_iterator<value_type>(this).setLast();
+	return head->value;
 }
 
 /*!
 \brief The method to update height in the whole tree
 \details It uses postorder traversal of the tree implemented iteratively, to allow wiser memory usage.
 */
-template <class value_type>
-void AVLTree<value_type>::updateHeights() {
+template <class node_type>
+void AVLTree<node_type>::updateHeights() {
 	if (head) {
 		std::stack<Node*> st;
 		Node* temp_ptr = head;
@@ -482,22 +434,22 @@ void AVLTree<value_type>::updateHeights() {
 		} while (!st.empty());
 	}
 }
-
-/*!
-\brief Get the minimal value in the tree
-\details The method allows to get the minimal value in the tree, starting from the given Node
-\param [out] way Reference to the parameter which doesn't have any limitations on the input, but will be pushed with the way to the Node with minimal value
-\param [in] to_find A pointer to the Node where we start looking for a minimal value
-\return A pointer to the Node with the minimal value
-*/
-template <class value_type>
-typename AVLTree<value_type>::Node* AVLTree<value_type>::minNode(std::stack<Node*>& way, Node* to_find) {
-	while (to_find->left) {
-		way.push(to_find);
-		to_find = to_find->left;
-	}
-	return to_find;
-}
+//
+///*!
+//\brief Get the minimal value in the tree
+//\details The method allows to get the minimal value in the tree, starting from the given Node
+//\param [out] way Reference to the parameter which doesn't have any limitations on the input, but will be pushed with the way to the Node with minimal value
+//\param [in] to_find A pointer to the Node where we start looking for a minimal value
+//\return A pointer to the Node with the minimal value
+//*/
+//template <class node_type>
+//typename AVLTree<node_type>::Node* AVLTree<node_type>::minNode(std::stack<Node*>& way, Node* to_find) {
+//	while (to_find->left) {
+//		way.push(to_find);
+//		to_find = to_find->left;
+//	}
+//	return to_find;
+//}
 
 /*!
 \brief Erase element
@@ -519,10 +471,10 @@ The value is erased, making the iterator invalid.
 //
 \endcode
 */
-template <class value_type>
-void AVLTree<value_type>::erase(AVLTree_iterator<value_type> it) {
-	if (!head || !it.node) {
-		//empty tree
+template <class node_type>
+void AVLTree<node_type>::pop_front() {
+	if (!head) {
+		//TODO: throw empty
 		return;
 	}
 	else if (head->height == 1) {
@@ -533,73 +485,42 @@ void AVLTree<value_type>::erase(AVLTree_iterator<value_type> it) {
 	else {
 		Node* temp = head;
 		std::stack<Node*> way;
-		std::stack<Node*> temp_way;
+
 		while (true) {
 			way.push(temp);
-			AVLTree_iterator<value_type> temp_it(this, temp);
-			if (temp_it == it) {
+			if (!temp->right) {
 				break;
 			}
-			else if (temp_it > it) {
-				if (temp->left)
-					temp = temp->left;
-				else
-					return;
-			}
-			else {
-				if (temp->right)
-					temp = temp->right;
-				else
-					return;
-			}
+			temp = temp->right;
 		}
 
-		bool twoChilder = true;
+		//one or no child
+		//t_ptr is the node of the left or right child
+		Node* t_ptr = temp->left;
 
-		if (!temp->left || !temp->right) {
-			twoChilder = false;
-			//one or no child
-			//t_ptr is the node of the left or right child
-			Node* t_ptr = (temp->left) ? temp->left : temp->right;
-
-			if (!t_ptr) {
-				way.pop();
-				if (way.top()->left == temp) {
-					way.top()->left = nullptr;
-
-				}
-				else {
-					way.top()->right = nullptr;
-				}
-				t_ptr = temp;
-
-				if (temp)
-					delete temp;
-			}
-			else {
-				//one child
-				temp->value = t_ptr->value;
-				temp->left = t_ptr->left;
-				temp->right = t_ptr->right;
-				delete t_ptr;
-			}
-			way.push(nullptr);
-		}
-		else {
-			//two children
-			//t_ptr is the node to be inserted in the old node
-			Node* t_ptr = minNode(way, temp->right);
-			temp->value = t_ptr->value;
-			if (way.top()->left == t_ptr) {
+		if (!t_ptr) {
+			way.pop();
+			if (way.top()->left == temp) {
 				way.top()->left = nullptr;
+
 			}
 			else {
 				way.top()->right = nullptr;
 			}
-			way.push(nullptr);
+			//t_ptr = temp;
+
+			if (temp)
+				delete temp;
+		}
+		else {
+			//one child
+			temp->value = t_ptr->value;
+			temp->left = t_ptr->left;
+			temp->right = t_ptr->right;
 			delete t_ptr;
 		}
-
+		way.push(nullptr);
+		
 		updateHeights();
 		to_balance(way, 1);
 		--tree_size;

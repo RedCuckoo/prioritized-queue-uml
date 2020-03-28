@@ -26,6 +26,7 @@ int main(){
 	a.pop_front();
 	a.pop_front();
 	std::cout << a[0] << " " << a[3];
+
 	//a.out();
 
 	//VectorPriorQueue<int> a;
