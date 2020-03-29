@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="priority_queue_data_structure\data_structures\AVLTree.h" />
     <ClInclude Include="priority_queue_data_structure\QueueBase.h" />
+    <ClInclude Include="priority_queue_data_structure\TreePriorQueue.h" />
     <ClInclude Include="priority_queue_data_structure\VectorPriorQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -159,7 +159,8 @@ std::string QueueBase<container_type, node_type>::to_string() {
 		//ans += std::to_string(prior_container[*i]) <<" ";
 	}
 
-	ans.erase(--ans.end());
+	if (ans.size())
+		ans.erase(--ans.end());
 
 	return ans;
 }

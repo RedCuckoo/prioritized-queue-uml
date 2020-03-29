@@ -76,7 +76,7 @@ node_type& AVLTree<node_type>::front() {
 	}
 
 	//TODO: throw if nullptr?
-	return temp;
+	return temp->value;
 }
 
 template <class node_type>
@@ -90,7 +90,7 @@ node_type& AVLTree<node_type>::back() {
 	}
 
 	//TODO: throw if nullptr?
-	return temp;
+	return temp->value;
 }
 
 /*!
@@ -389,13 +389,13 @@ node_type& AVLTree<node_type>::operator[](unsigned int i) {
 		while (temp_vec.size() != i + 1) {
 			if (temp_ptr) {
 				temp_stack.push(temp_ptr);
-				temp_ptr = temp_ptr->left;
+				temp_ptr = temp_ptr->right;
 			}
 			else {
 				temp_ptr = temp_stack.top();
 				temp_stack.pop();
 				temp_vec.push_back(temp_ptr);
-				temp_ptr = temp_ptr->right;
+				temp_ptr = temp_ptr->left;
 			}
 		}
 		return temp_vec.back()->value;

@@ -29,5 +29,8 @@
     <ClInclude Include="priority_queue_data_structure\data_structures\AVLTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="priority_queue_data_structure\TreePriorQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
