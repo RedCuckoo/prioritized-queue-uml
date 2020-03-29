@@ -6,12 +6,14 @@
 */
 
 #include "priority_queue_data_structure/data_structures/AVLTree.h"
+#include "priority_queue_data_structure/data_structures/List.h"
 #include <iostream>
 #include "priority_queue_data_structure/VectorPriorQueue.h"
 #include "priority_queue_data_structure/TreePriorQueue.h"
+#include "priority_queue_data_structure/ListPriorQueue.h"
 
 int main(){
-	//AVLTree<int> a;
+	//List<int> a;
 	//a.push_back(3);
 	//a.push_back(0);
 	//a.push_back(2);
@@ -24,13 +26,13 @@ int main(){
 	////a.out();
 	//std::cout << '\n';
 
+ //	a.pop_front();
 	//a.pop_front();
-	//a.pop_front();
-	//std::cout << a[0] << " " << a[3];
+	//std::cout << a[0] << " " << a[6];
 
-	//a.out();
 
-	TreePriorQueue<int> a;
+
+	ListPriorQueue<int> a;
 	a.push(3, 2);
 	a.push(6, 2);
 	a.push(2, 8);

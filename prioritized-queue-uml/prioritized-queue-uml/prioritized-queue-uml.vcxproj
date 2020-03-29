@@ -154,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="priority_queue_data_structure\data_structures\AVLTree.h" />
+    <ClInclude Include="priority_queue_data_structure\data_structures\List.h" />
+    <ClInclude Include="priority_queue_data_structure\ListPriorQueue.h" />
     <ClInclude Include="priority_queue_data_structure\QueueBase.h" />
     <ClInclude Include="priority_queue_data_structure\TreePriorQueue.h" />
     <ClInclude Include="priority_queue_data_structure\VectorPriorQueue.h" />

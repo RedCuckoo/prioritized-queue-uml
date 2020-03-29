@@ -32,5 +32,11 @@
     <ClInclude Include="priority_queue_data_structure\TreePriorQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="priority_queue_data_structure\data_structures\List.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="priority_queue_data_structure\ListPriorQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
