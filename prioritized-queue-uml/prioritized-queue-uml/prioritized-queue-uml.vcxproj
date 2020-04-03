@@ -150,9 +150,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="figures\base figure\Figure.cpp" />
+    <ClCompile Include="figures\Circle.cpp" />
+    <ClCompile Include="figures\Line.cpp" />
+    <ClCompile Include="figures\mathematical functions\Math.cpp" />
     <ClCompile Include="prioritized-queue-uml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="figures\base figure\Figure.h" />
+    <ClInclude Include="figures\Circle.h" />
+    <ClInclude Include="figures\Line.h" />
+    <ClInclude Include="figures\mathematical functions\Math.h" />
     <ClInclude Include="priority_queue_data_structure\data_structures\AVLTree.h" />
     <ClInclude Include="priority_queue_data_structure\data_structures\List.h" />
     <ClInclude Include="priority_queue_data_structure\ListPriorQueue.h" />

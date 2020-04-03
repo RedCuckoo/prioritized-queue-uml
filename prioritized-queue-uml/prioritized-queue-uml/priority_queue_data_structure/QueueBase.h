@@ -111,7 +111,7 @@ void QueueBase<container_type, node_type>::pop() {
 */
 template <class container_type, class node_type>
 std::pair<node_type, unsigned int> QueueBase<container_type, node_type>::front() {
-	return std::make_pair(prior_container[*--priorities.end()].front(), *--priorities.end());
+	return std::pair<node_type, unsigned int>(prior_container[*--priorities.end()].front(), *--priorities.end());
 }
 
 /*!
@@ -120,7 +120,7 @@ std::pair<node_type, unsigned int> QueueBase<container_type, node_type>::front()
 */
 template <class container_type, class node_type>
 std::pair<node_type, unsigned int> QueueBase<container_type, node_type>::back() {
-	return std::make_pair(prior_container[*priorities.begin()].back(), *priorities.begin());
+	return std::pair<node_type, unsigned int>(prior_container[*priorities.begin()].back(), *priorities.begin());
 }
 
 /*!

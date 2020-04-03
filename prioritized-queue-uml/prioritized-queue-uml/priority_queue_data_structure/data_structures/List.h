@@ -82,7 +82,8 @@ void List<node_type>::pop_front() {
 	if (head)
 		head->prev = nullptr;
 
-	--list_size;
+	if(list_size)
+		--list_size;
 	delete temp;
 }
 
@@ -93,7 +94,12 @@ node_type& List<node_type>::front() {
 
 template <class node_type>
 node_type& List<node_type>::back() {
-	return tail->value;
+	if(tail)
+		return tail->value;
+	
+	return head->value;
+
+	//TODO:has to throw something
 }
 
 /*!

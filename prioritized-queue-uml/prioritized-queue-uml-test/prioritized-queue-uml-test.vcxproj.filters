@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="VectorPriorQueueTest.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="prioritized-queue-uml-test.cpp">
+    <ClCompile Include="priority-queue-test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="data-structures-test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

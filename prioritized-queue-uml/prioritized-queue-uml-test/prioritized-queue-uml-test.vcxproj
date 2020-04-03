@@ -147,8 +147,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="prioritized-queue-uml-test.cpp" />
-    <ClCompile Include="VectorPriorQueueTest.cpp" />
+    <ClCompile Include="data-structures-test.cpp" />
+    <ClCompile Include="priority-queue-test.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catch.hpp" />

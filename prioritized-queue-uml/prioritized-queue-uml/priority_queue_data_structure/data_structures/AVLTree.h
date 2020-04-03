@@ -480,7 +480,8 @@ void AVLTree<node_type>::pop_front() {
 	else if (head->height == 1) {
 		delete head;
 		head = nullptr;
-		--tree_size;
+		if(tree_size)
+			--tree_size;
 	}
 	else {
 		Node* temp = head;
@@ -523,7 +524,8 @@ void AVLTree<node_type>::pop_front() {
 		
 		updateHeights();
 		to_balance(way, 1);
-		--tree_size;
+		if(tree_size)
+			--tree_size;
 	}
 }
 

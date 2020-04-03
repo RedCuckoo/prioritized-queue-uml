@@ -45,6 +45,7 @@ int main(){
 	a.pop();
 	a.push(3, 6);
 	std::cout << a.to_string();
+std::cout << a.back().first << a.back().second;
 	a.pop();
 	a.pop();
 
