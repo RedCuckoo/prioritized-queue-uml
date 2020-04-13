@@ -11,6 +11,9 @@
 #include "priority_queue_data_structure/VectorPriorQueue.h"
 #include "priority_queue_data_structure/TreePriorQueue.h"
 #include "priority_queue_data_structure/ListPriorQueue.h"
+#include "figures/mathematical functions/Math.h"
+#include "figures/Line.h"
+#include <vector>
 
 int main(){
 	//List<int> a;
@@ -32,22 +35,28 @@ int main(){
 
 
 
-	ListPriorQueue<int> a;
-	a.push(3, 2);
-	a.push(6, 2);
-	a.push(2, 8);
-	a.push(6, 1);
-	a.push(6, 9);
-	std::cout << a.to_string() << "\n";
-	a.pop();
-	a.pop();
-	a.pop();
-	a.pop();
-	a.push(3, 6);
-	std::cout << a.to_string();
-std::cout << a.back().first << a.back().second;
-	a.pop();
-	a.pop();
+//	ListPriorQueue<int> a;
+//	a.push(3, 2);
+//	a.push(6, 2);
+//	a.push(2, 8);
+//	a.push(6, 1);
+//	a.push(6, 9);
+//	std::cout << a.to_string() << "\n";
+//	a.pop();
+//	a.pop();
+//	a.pop();
+//	a.pop();
+//	a.push(3, 6);
+//	std::cout << a.to_string();
+//std::cout << a.back().first << a.back().second;
+//	a.pop();
+//	a.pop();
+//
+//	std::cout<<a.to_string();
+	//std::vector<double> ans = squareEquationSolver(0, 1, 0);
 
-	std::cout<<a.to_string();
+	//for (auto x : ans) {
+	//	std::cout << x << " ";
+	//}
+
 } 

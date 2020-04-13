@@ -7,7 +7,7 @@
 
 #include "Circle.h"
 #include <vector>
-#include "..//priority_queue_data_structure/data_structures/Pair.h"
+#include <sstream>
 #include "mathematical functions/Math.h"
 #include "Line.h"
 
@@ -18,7 +18,7 @@
 \return True value if center of to_check lays on the current Circle and false value otherwise
 */
 bool Circle::centerBelongToCircle(const Circle& to_check) {
-	double x0 = to_check.center.getVal(), y0 = to_check.center.getPrior(), x = center.getVal(), y = center.getPrior();
+	double x0 = to_check.center.first, y0 = to_check.center.second, x = center.first, y = center.second;
 	return ((x0 - x) * (x0 - x) + (y0 - y) * (y0 - y) == radius * radius) ? true : false;
 }
 
@@ -36,29 +36,33 @@ Searched points will be intersection points, which the function will return.
 Otherwise if the coeficient near y is equal to 0, the function will subtitute x in the equation of the circle to x = - c / a.
 The formula for y will be: y = y0 + sqrt ( r^2 - ( - c/ a - x0)^2 ).
 */
-std::vector<Pair<double, double>> Circle::intersection(const Line& to_find) {
+std::vector<std::pair<double, double>> Circle::intersection(const Line& to_find) {
 	double a = to_find.a, b = to_find.b, c = to_find.c;
 
-	std::vector<Pair<double, double>> intersectionPoints;
+	std::vector<std::pair<double, double>> intersectionPoints;
 	if (b) {
 		double slope = -a / b;
 		double y_intersection = -c / b;
-		intersectionPoints = squareEquationSolver(slope * slope + 1, 2. * (slope * (y_intersection - center.getPrior()) - center.getVal()), center.getVal() * center.getVal() + y_intersection * (y_intersection - 2. * center.getPrior()) + center.getPrior() * center.getPrior() - radius * radius);
+		std::vector<double> equationResults = squareEquationSolver(slope * slope + 1, 2. * (slope * (y_intersection - center.first) - center.second), center.first * center.first + y_intersection * (y_intersection - 2. * center.second) + center.first * center.first - radius * radius);
+	
+		for (auto i : equationResults) {
+			intersectionPoints.push_back(std::pair<double, double>(i, 0));
+		}
 	}
 	else {
 		//x = -c/a
 		if (a) {
-			double d = radius * radius - (-c / a - center.getVal()) * (-c / a - center.getVal());
-			Pair<double, double> temp;
-			temp.setVal(-c / a);
+			double d = radius * radius - (-c / a - center.first) * (-c / a - center.first);
+			std::pair<double, double> temp;
+			temp.first = -c / a;
 			if (d > 0) {
-				temp.setPrior(center.getPrior() + sqrt(d));
+				temp.second = center.first + sqrt(d);
 				intersectionPoints.push_back(temp);
-				temp.setPrior(center.getPrior() - sqrt(d));
+				temp.second = center.first - sqrt(d);
 				intersectionPoints.push_back(temp);
 			}
 			else if (d == 0) {
-				temp.setPrior(center.getPrior());
+				temp.second = center.second;
 				intersectionPoints.push_back(temp);
 			}
 			else {
@@ -69,7 +73,7 @@ std::vector<Pair<double, double>> Circle::intersection(const Line& to_find) {
 
 	if (b) {
 		for (unsigned int i = 0; i < intersectionPoints.size(); i++) {
-			intersectionPoints[i].setPrior((-a / b) * intersectionPoints[i].getVal() + (-c / b));
+			intersectionPoints[i].second = (-a / b) * intersectionPoints[i].first + (-c / b);
 		}
 	}
 
@@ -84,8 +88,8 @@ std::vector<Pair<double, double>> Circle::intersection(const Line& to_find) {
 
 Using some formulas the task converts to finding the intersection of the circle with the line;
 */
-std::vector<Pair<double, double>> Circle::intersection(const Circle& to_find) {
-	double x1 = center.getVal(), y1 = center.getPrior(), x2 = to_find.center.getVal(), y2 = to_find.center.getPrior();
+std::vector<std::pair<double, double>> Circle::intersection(const Circle& to_find) {
+	double x1 = center.first, y1 = center.second, x2 = to_find.center.first, y2 = to_find.center.second;
 	return intersection(Line(-2 * x2, -2 * y2, x2 * x2 + y2 * y2 + radius * radius - to_find.radius * to_find.radius));
 }
 
@@ -129,22 +133,22 @@ And finaly we can calculate a center of inversed Circle as the midpoint between 
 The radius is a half distance between them.
 */
 Line Circle::inverse(const Circle& baseCircle) {
-	double x = center.getVal(), y = center.getPrior(), x0 = baseCircle.center.getVal(), y0 = baseCircle.center.getPrior();
+	double x = center.first, y = center.second, x0 = baseCircle.center.first, y0 = baseCircle.center.second;
 	
 	if (*this == baseCircle)
 		return Line();
 
-	std::vector<Pair<double, double>> diamPoints;
+	std::vector<std::pair<double, double>> diamPoints;
 
 	if (this->centerBelongToCircle(baseCircle)) {
 		//the answer will be line
-		Pair<double, double> linePoint1 = { 2 * x - x0, 2 * y - y0 };
-		Pair<double, double> linePoint2 = { x + radius, y };
+		std::pair<double, double> linePoint1 = { 2 * x - x0, 2 * y - y0 };
+		std::pair<double, double> linePoint2 = { x + radius, y };
 
 		//change point
 		if (linePoint2 == baseCircle.center || linePoint2 == linePoint1) {
-			linePoint2.setVal(x);
-			linePoint2.setPrior(y + radius);
+			linePoint2.first = x;
+			linePoint2.second = y + radius;
 		}
 
 		inversePoint(linePoint1, baseCircle);
@@ -165,13 +169,13 @@ Line Circle::inverse(const Circle& baseCircle) {
 		inversePoint(diamPoints[i], baseCircle);
 	}
 
-	x0 = diamPoints[0].getVal();
-	y0 = diamPoints[0].getPrior();
-	x = diamPoints[1].getVal();
-	y = diamPoints[1].getPrior();
+	x0 = diamPoints[0].first;
+	y0 = diamPoints[0].second;
+	x = diamPoints[1].first;
+	y = diamPoints[1].second;
 	radius = sqrt((x - x0) * (x - x0) + (y - y0) * (y - y0)) / 2;
-	center.setVal((x + x0) / 2);
-	center.setPrior((y + y0) / 2);
+	center.first = (x + x0) / 2;
+	center.second = (y + y0) / 2;
 	return Line();
 }
 
@@ -197,6 +201,8 @@ bool Circle::operator!=(const Circle& to_compare) const {
 \brief Output stored information
 \details Print stored fields of the Circle to the console, using <iostream> library
 */
-void Circle::out() {
-	std::cout << "(x - " << center.getVal() << ")^2 + (y - " << center.getPrior() << ")^2 = " << radius << "^2";
+std::string Circle::to_string() {
+	std::ostringstream ss;
+	ss << *this;
+	return ss.str();
 }

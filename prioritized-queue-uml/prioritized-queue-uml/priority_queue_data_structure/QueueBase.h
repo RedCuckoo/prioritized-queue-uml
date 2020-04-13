@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <set>
 #include <string>
+#include <sstream>
 
 /*!
 \brief Base class of the private methods for the queue
@@ -145,24 +146,27 @@ unsigned int QueueBase<container_type, node_type>::size() {
 */
 template <class container_type, class node_type>
 std::string QueueBase<container_type, node_type>::to_string() {
-	std::string ans = "";
+	std::ostringstream ss;
+
+	size_t set_size = priorities.size();
 
 	for (auto i = priorities.rbegin(), end = priorities.rend(); i != end; ++i) {
-		//unsigned int size = prior_container[*i].size();
+		--set_size;
+
 		for (unsigned int j = 0, size = prior_container[*i].size(); j < size; ++j) {
-			ans += ("("
-				+ (std::string)std::to_string(prior_container[*i][j])
-				+ ", "
-				+ (std::string)std::to_string(*i)
-				+ ") ");
+			ss << "("
+				<< prior_container[*i][j]
+				<< ", "
+				<< *i
+				<< ")";
 		}
-		//ans += std::to_string(prior_container[*i]) <<" ";
+
+		if (set_size != 0) {
+			ss << " ";
+		}
 	}
 
-	if (ans.size())
-		ans.erase(--ans.end());
-
-	return ans;
+	return ss.str();
 }
 
 #endif // !QUEUEBASE_H

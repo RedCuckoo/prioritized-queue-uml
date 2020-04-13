@@ -9,6 +9,7 @@
 #define FIGURE_H
 
 #include <iostream>
+#include <string>
 
 /*!
 \brief A base class for figures
@@ -16,7 +17,7 @@
 */
 class Figure {
 public:
-	virtual void out() = 0;
+	virtual std::string to_string() = 0;
 };
 
 #endif //FIGURE_H

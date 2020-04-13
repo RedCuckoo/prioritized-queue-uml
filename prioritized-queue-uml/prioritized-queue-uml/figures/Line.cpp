@@ -8,8 +8,9 @@
 #include "Line.h"	
 #include <vector>
 #include "Circle.h"
-#include "..//priority_queue_data_structure/data_structures/Pair.h"
 #include "mathematical functions/Math.h"
+#include <string>
+#include <sstream>
 
 /*!
 \brief Constructor
@@ -17,8 +18,8 @@
 \param [in] fPoint One of the points, which form a Line
 \param [in] sPoint Another of the points, which form a Line
 */
-Line::Line(Pair<double, double> fPoint, Pair<double, double> sPoint) {
-	double x1 = fPoint.getVal(), x2 = sPoint.getVal(), y1 = fPoint.getPrior(), y2 = sPoint.getPrior();
+Line::Line(std::pair<double, double> fPoint, std::pair<double, double> sPoint) {
+	double x1 = fPoint.first, x2 = sPoint.first, y1 = fPoint.second, y2 = sPoint.second;
 	a = y2 - y1;
 	b = x1 - x2;
 	c = x2 * y1 - x1 * y2;
@@ -32,7 +33,7 @@ Line::Line(Pair<double, double> fPoint, Pair<double, double> sPoint) {
 
 This function uses already defined and implemented function, from the class of Circle.
 */
-std::vector<Pair<double, double>> Line::intersection(const Circle& to_find) {
+std::vector<std::pair<double, double>> Line::intersection(const Circle& to_find) {
 	Circle copy = to_find;
 	return copy.intersection(*this);
 }
@@ -43,14 +44,14 @@ std::vector<Pair<double, double>> Line::intersection(const Circle& to_find) {
 \param [in] to_find A Line that this object intersects with
 \return A vector of points of intersection
 */
-std::vector<Pair<double, double>> Line::intersection(const Line& to_find) {
+std::vector<std::pair<double, double>> Line::intersection(const Line& to_find) {
 	double a2 = to_find.a, b2 = to_find.b, c2 = to_find.c;
 	double temp = a2 * b - a * b2;
-	std::vector<Pair<double, double>> ans;
-	Pair<double, double> temp_pair;
+	std::vector<std::pair<double, double>> ans;
+	std::pair<double, double> temp_pair;
 	if (temp && b) {
-		temp_pair.setVal((c * b2 - c2 * b) / temp);
-		temp_pair.setPrior((-a / b)* temp_pair.getVal() - c / b);
+		temp_pair.first = (c * b2 - c2 * b) / temp;
+		temp_pair.second = (-a / b) * temp_pair.first - c / b;
 		ans.push_back(temp_pair);
 	}
 	else if (!b && !b2) {
@@ -62,8 +63,8 @@ std::vector<Pair<double, double>> Line::intersection(const Line& to_find) {
 	else if (temp && a) {
 		//b == 0
 		//b2 !=0
-		temp_pair.setVal(-c / a);
-		temp_pair.setPrior((-a2 / b2) * temp_pair.getVal() - c2 / b2);
+		temp_pair.first = -c / a;
+		temp_pair.second = (-a2 / b2) * temp_pair.first - c2 / b2;
 		ans.push_back(temp_pair);
 	}
 	else{
@@ -81,21 +82,22 @@ If they are not, the function will find the intersection points, choose a point 
 Also some trivial cases are included to prevent division on 0.
 */
 void Line::reflectOverLine(const Line& baseLine) {
-	Pair<double, double> inter = intersection(baseLine)[0];
-	if (inter != Pair<double, double>()) {
+	std::pair<double, double> inter = intersection(baseLine)[0];
+	//TODO: check this
+	if (inter != std::pair<double, double>()) {
 		//if they aren't paralel
-		Pair<double, double> temp = inter;
+		std::pair<double, double> temp = inter;
 		if (a && b) {
-			temp.setVal(inter.getVal() + 1);
-			temp.setPrior((-a / b) * temp.getVal() - c / b);
+			temp.first = inter.first + 1;
+			temp.second = (-a / b) * temp.first - c / b;
 		}
 		else if (!a && b) {
-			temp.setVal(inter.getVal() + 1);
-			temp.setPrior(- c / b);
+			temp.first = inter.first + 1;
+			temp.second = - c / b;
 		}
 		else if (a && !b) {
-			temp.setVal(inter.getVal() );
-			temp.setPrior(inter.getPrior() + 1);
+			temp.first = inter.first;
+			temp.second = inter.second + 1;
 		}
 		else {
 			return;
@@ -119,33 +121,25 @@ If the center of the base Circle lays on the Line, the inversion of the Line wil
 The function calculates the closes point of the newly formed Circle to the Line, following the calculation on the center and radius relatively.
 */
 Circle Line::inverse(const Circle& baseCircle) {
-	Pair<double, double> diamPoint;
-	double x0 = baseCircle.center.getVal(), y0 = baseCircle.center.getPrior();
-	diamPoint.setVal((b * b * x0 - a * c - a * b * y0) / (b * b + a * a));
-	diamPoint.setPrior((-a / b) * diamPoint.getVal() - c / b);
+	std::pair<double, double> diamPoint;
+	double x0 = baseCircle.center.first, y0 = baseCircle.center.second;
+	diamPoint.first = (b * b * x0 - a * c - a * b * y0) / (b * b + a * a);
+	diamPoint.second = (-a / b) * diamPoint.first - c / b;
 	inversePoint(diamPoint, baseCircle);
-	return Circle((x0 + diamPoint.getVal()) / 2, (y0 + diamPoint.getPrior()) / 2, sqrt((diamPoint.getVal() - x0) * (diamPoint.getVal() - x0) + (diamPoint.getPrior() - y0) * (diamPoint.getPrior() - y0)) / 2);
+	return Circle((x0 + diamPoint.first) / 2, (y0 + diamPoint.second) / 2, sqrt((diamPoint.first - x0) * (diamPoint.first - x0) + (diamPoint.second - y0) * (diamPoint.second - y0)) / 2);
 }
 
 /*!
 \brief Output stored information
 \details Print stored fields of the Line to the console, using <iostream> library
 */
-void Line::out() {
-	double x1 = 0, y1 = ((b) ? (-c / b) : 0);
-	double x2 = ((a) ? (-c/a) : 0), y2 = 0;
-	if (a && b) {
-		std::cout << "(" << x1 << "," << y1 << ") , (" << x2 << "," <<y2<< ")";
-	}
-	else if (a) {
-		std::cout << "x = " << (-c / a);
-	}
-	else if (b){
-		std::cout << "y = " << (-c / b);
-	}
-	else {
-		std::cout << "Line isn't correct";
-	}
+std::string Line::to_string() {
+	std::string ans = "";
+
+	std::ostringstream ss;
+	ss << *this;
+
+	return ss.str();
 }
 
 /*!
