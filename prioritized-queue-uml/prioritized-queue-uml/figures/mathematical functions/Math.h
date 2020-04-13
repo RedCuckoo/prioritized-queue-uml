@@ -7,6 +7,10 @@
 #define MATH_H
 
 #include <vector>
+#include <cmath>
+#include <limits>
+
+#define EPSILON 0.01
 
 class Circle;
 class Line;
@@ -35,5 +39,8 @@ std::pair<double, double> findSymmetricDot(const Line& baseLine, const std::pair
 \param [in] baseCircle A Circle, relatively to which the function will find an inversion
 */
 void inversePoint(std::pair<double, double>& to_inverse, const Circle& baseCircle);
+
+
+bool is_equal(double x, double y);
 
 #endif // !MATH_H

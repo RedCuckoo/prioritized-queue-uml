@@ -185,7 +185,9 @@ Line Circle::inverse(const Circle& baseCircle) {
 \return True value if they are equal and false value otherwise
 */
 bool Circle::operator==(const Circle& to_compare) const {
-	return (center == to_compare.center && radius == to_compare.radius) ? true : false;
+	return (is_equal(center.first, to_compare.center.first)
+		&& is_equal(center.second, to_compare.center.second)
+		&& is_equal(radius, to_compare.radius)) ? true : false;
 }
 
 /*!
@@ -194,7 +196,7 @@ bool Circle::operator==(const Circle& to_compare) const {
 \return True value if they are unequal and false value otherwise
 */
 bool Circle::operator!=(const Circle& to_compare) const {
-	return (center != to_compare.center || radius != to_compare.radius) ? true : false;
+	return (*this == to_compare) ? false : true;
 }
 
 /*!

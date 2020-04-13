@@ -149,7 +149,30 @@ std::string Line::to_string() {
 */
 bool Line::operator==(const Line& to_compare) const{
 	double a1 = to_compare.a, b1 = to_compare.b, c1 = to_compare.c;
-	return (a == a1 && b == b1 && c == c1) ? true : false;
+	bool ans = 1;
+
+	if (a && b) {
+		ans *= is_equal(a1 / a, b1 / b);
+	}
+	else if (a1 && b1) {
+		ans *= is_equal(a / a1, b / b1);
+	}
+
+	if (b && c) {
+		ans *= is_equal(b1 / b, c1 / c);
+	}
+	else if (b1 && c1) {
+		ans *= is_equal(b / b1, c / c1);
+	}
+
+	if (a && c) {
+		ans *= is_equal(a1 / a, c1 / c);
+	}
+	else if (a1 && c1) {
+		ans *= is_equal(a / a1, c / c1);
+	}
+
+	return (ans) ? true : false;
 }
 
 /*!

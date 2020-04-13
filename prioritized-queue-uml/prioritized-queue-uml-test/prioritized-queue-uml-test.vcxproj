@@ -148,7 +148,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="data-structures-test.cpp" />
-    <ClCompile Include="math_test.cpp" />
+    <ClCompile Include="figure-test.cpp" />
+    <ClCompile Include="math-test.cpp" />
     <ClCompile Include="priority-queue-test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

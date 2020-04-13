@@ -44,7 +44,7 @@ private:
 public:
 	/*!
 	\brief Default constructor
-	\details Creates an uninitialized object of class Circle, doesn't store any data, only for comparison
+	\details Creates an uninitialized object of class Line, doesn't store any data, only for comparison
 	*/
 	Line() = default;
 

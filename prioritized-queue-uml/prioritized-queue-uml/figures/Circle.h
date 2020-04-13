@@ -57,7 +57,8 @@ public:
 	\param [in] rad The radius of the newly created Cycle
 	*/
 	Circle(double x, double y, double rad) : radius((rad > 0) ? rad : -rad), center(std::pair<double, double>(x, y)) {		}
-	
+	Circle(const Circle& to_copy) : radius(to_copy.radius), center(to_copy.center)  {		}
+
 	std::vector<std::pair<double, double>> intersection(const Line& to_find);
 	std::vector<std::pair<double, double>> intersection(const Circle& to_find);
 	void reflectOverLine(const Line& baseLine);
@@ -71,7 +72,7 @@ public:
 
 inline std::ostream& operator<<(std::ostream& out_stream, const Circle& to_out) {
 
-	std::cout << "(" << to_out.center.first << ", " << to_out.center.second << "), radius = " << to_out.radius;// << " = 0";
+	out_stream << "(" << to_out.center.first << ", " << to_out.center.second << "), radius = " << to_out.radius;// << " = 0";
 	return out_stream;
 }
 

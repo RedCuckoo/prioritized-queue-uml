@@ -15,7 +15,7 @@
 #include "figures/Line.h"
 #include <vector>
 
-int main(){
+int main() {
 	//List<int> a;
 	//a.push_back(3);
 	//a.push_back(0);
@@ -59,4 +59,4 @@ int main(){
 	//	std::cout << x << " ";
 	//}
 
-} 
+}

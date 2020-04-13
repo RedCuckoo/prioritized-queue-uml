@@ -124,3 +124,7 @@ void inversePoint(std::pair<double, double>& to_inverse, const Circle& baseCircl
 		to_inverse.second = y0 + ((r * r * (y - y0)) / ((x - x0) * (x - x0) + (y - y0) * (y - y0)));
 	}
 }
+
+bool is_equal(double x, double y) {
+	return std::fabs(x - y) < EPSILON;
+}

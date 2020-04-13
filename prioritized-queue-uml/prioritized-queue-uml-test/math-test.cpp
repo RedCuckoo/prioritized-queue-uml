@@ -160,4 +160,13 @@ TEST_CASE("Find inverse dot relatively to the circle") {
 		REQUIRE(ans.first == 5.0);
 		REQUIRE(ans.second == 5.0);
 	}
+
+	SECTION("Double inverse have to give the same dot") {
+		ans = std::make_pair<double, double>(20.0, 30.0);
+		std::pair<double, double> cur = ans;
+		inversePoint(ans, circle);
+		inversePoint(ans, circle);
+		REQUIRE(is_equal(ans.first, cur.first) == true);
+		REQUIRE(is_equal(ans.second, cur.second) == true);
+	}
 }

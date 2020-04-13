@@ -24,7 +24,10 @@
     <ClCompile Include="data-structures-test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="math_test.cpp">
+    <ClCompile Include="math-test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="figure-test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
