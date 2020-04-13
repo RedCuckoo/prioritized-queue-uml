@@ -6,7 +6,6 @@
 #include "Math.h"
 #include "..\Line.h"
 #include "..\Circle.h"
-#include "..\..\priority_queue_data_structure\data_structures\Pair.h"
 #include <vector>
 
 /*!
@@ -15,24 +14,71 @@ If it is greated than 0, then we have two answers, x1/x2 = (-b +/- sqrt(D)) / (2
 If it is equal to 0, then we have one answer x = -b / (2 * a).
 If it is less than 0, then we don't have rational roots.
 */
-std::vector<Pair<double, double>> squareEquationSolver(double a, double b, double c) {
-	double d = b * b - 4 * a * c;
-	std::vector<Pair<double, double>> ans;
-	if (d > 0) {
-		Pair<double, double> p1, p2;
-		p1.setVal((-b + sqrt(d)) / (2 * a));
-		p2.setVal((-b - sqrt(d)) / (2 * a));
-		ans.push_back(p1);
-		ans.push_back(p2);
-	}
-	else if (d == 0) {
-		Pair<double, double> p;
-		p.setVal(-b / (2 * a));
-		ans.push_back(p);
+std::vector<double> squareEquationSolver(double a, double b, double c) {
+	//double d = b * b - 4 * a * c;
+	//std::vector<double> ans;
+	//if (d > 0) {
+	//	ans.push_back((-b + sqrt(d)) / (2 * a));
+	//	ans.push_back((-b - sqrt(d)) /	
+	//		(2 * a));
+	//}
+	//else if (d == 0) {
+	//	ans.push_back(-b / (2 * a));
+	//}
+	//else {
+
+	//}
+	//return ans;
+
+	std::vector<double> ans;
+
+	if (a) {
+		if (b) {
+			if (c) {
+				double d = b * b - 4 * a * c;	
+				if (d > 0) {
+					ans.push_back((-b + sqrt(d)) / (2 * a));
+					ans.push_back((-b - sqrt(d)) / (2 * a));
+				}
+				else if (d == 0) {
+					ans.push_back(-b / (2 * a));
+				}
+				else {
+
+				}
+			}
+			else {
+				ans.push_back(0);
+				ans.push_back(-b / a);
+			}
+		}
+		else {
+			if (c) {
+				if ((a >= 0 && c <= 0) || (a <= 0 && c >= 0)) {
+					ans.push_back(sqrt(-c / a));
+					ans.push_back(-ans[0]);
+				}
+			}
+			else {
+				ans.push_back(0);
+			}
+		}
 	}
 	else {
+		if (b) {
+			if (c) {
+				ans.push_back(-c / b);
+			}
+			else {
+				ans.push_back(0);
+			}
+		}
+		else {
 
+		}
 	}
+
+
 	return ans;
 }
 
@@ -46,19 +92,19 @@ y = 2 * k * ( ((l - y0) * k - x0) / ( - k^2 - 1) ) + 2 * l - y0, where l - is th
 
 If b == 0, then the given line is x == const. This way, y coordinate won't change and x coordinate 2 * (- c / a ) - x0
 */
-Pair<double, double> findSymmetricDot(const Line& baseLine, const Pair<double, double> dot) {
-	double a = baseLine.a, b = baseLine.b, c = baseLine.c, x = dot.getVal(), y = dot.getPrior();
-	Pair<double, double> ans;
+std::pair<double, double> findSymmetricDot(const Line& baseLine, const std::pair<double, double> dot) {
+	double a = baseLine.a, b = baseLine.b, c = baseLine.c, x = dot.first, y = dot.second;
+	std::pair<double, double> ans;
 	if (b) {
 		double slope = -a / b, y_intersection = -c / b;
-		ans.setVal(2 * ((slope * (y_intersection - y) - x) / (-slope * slope - 1)) - x);
-		ans.setPrior(2 * slope * (((y_intersection - y) * slope - x) / (-slope * slope - 1)) + 2 * y_intersection - y);
+		ans.first = 2 * ((slope * (y_intersection - y) - x) / (-slope * slope - 1)) - x;
+		ans.second = 2 * slope * (((y_intersection - y) * slope - x) / (-slope * slope - 1)) + 2 * y_intersection - y;
 	}
 	else {
 		//x = const
 		if (a) {
-			ans.setVal(2 * (-c / a) - x);
-			ans.setPrior(y);
+			ans.first = 2 * (-c / a) - x;
+			ans.second = y;
 		}
 	}
 	return ans;
@@ -71,10 +117,10 @@ Once ensured, function applies the following formulas:
 x = x0 + (r^2 * (x1 - x0)) / ( (x1 - x0)^2 + (y1 - y0)^2 );
 y = y0 + (r^2 * (y1 - y0)) / ( (x1 - x0)^2 + (y1 - y0)^2 ), where (x1, y1) is the given point, (x0, y0) - center of the base Circle and r is its' radius.
 */
-void inversePoint(Pair<double, double>& to_inverse, const Circle& baseCircle) {
-	double x = to_inverse.getVal(), y = to_inverse.getPrior(), x0 = baseCircle.center.getVal(), y0 = baseCircle.center.getPrior(), r = baseCircle.radius;
+void inversePoint(std::pair<double, double>& to_inverse, const Circle& baseCircle) {
+	double x = to_inverse.first, y = to_inverse.second, x0 = baseCircle.center.first, y0 = baseCircle.center.second, r = baseCircle.radius;
 	if (x != x0 || y != y0) {
-		to_inverse.setVal(x0 + ((r * r * (x - x0)) / ((x - x0) * (x - x0) + (y - y0) * (y - y0))));
-		to_inverse.setPrior(y0 + ((r * r * (y - y0)) / ((x - x0) * (x - x0) + (y - y0) * (y - y0))));
+		to_inverse.first = x0 + ((r * r * (x - x0)) / ((x - x0) * (x - x0) + (y - y0) * (y - y0)));
+		to_inverse.second = y0 + ((r * r * (y - y0)) / ((x - x0) * (x - x0) + (y - y0) * (y - y0)));
 	}
 }

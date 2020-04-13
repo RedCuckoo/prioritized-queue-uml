@@ -7,9 +7,9 @@
 #define MATH_H
 
 #include <vector>
-#include "..\..\priority_queue_data_structure\data_structures\Pair.h"
-#include "..\Line.h"
-#include "..\Circle.h"
+
+class Circle;
+class Line;
 
 /*!
 \brief Solver of square equation
@@ -19,7 +19,7 @@
 \param double c Coeficient near x^0
 \return A vector which contains either none, one or two Pair of numbers. First number is the solution of the equation, second number is not defined.
 */
-std::vector<Pair<double, double>> squareEquationSolver(double a, double b, double c);
+std::vector<double> squareEquationSolver(double a, double b, double c);
 
 /*!
 \brief Reflect dot over a line
@@ -27,13 +27,13 @@ std::vector<Pair<double, double>> squareEquationSolver(double a, double b, doubl
 \param [in] dot The starting point, which symmetrical reflection you would like to find
 \return The symmetric point to the given with the parameter dot
 */
-Pair<double, double> findSymmetricDot(const Line& baseLine, const Pair<double, double> dot);
+std::pair<double, double> findSymmetricDot(const Line& baseLine, const std::pair<double, double> dot);
 
 /*!
 \brief Inverse a point relatively to the given Circle
 \param [out] to_inverse A reference to the point, which will be inversed as the answer.=
 \param [in] baseCircle A Circle, relatively to which the function will find an inversion
 */
-void inversePoint(Pair<double, double>& to_inverse, const Circle& baseCircle);
+void inversePoint(std::pair<double, double>& to_inverse, const Circle& baseCircle);
 
 #endif // !MATH_H
