@@ -2,8 +2,8 @@
 #include "..\prioritized-queue-uml\figures\Line.h"
 #include "..\prioritized-queue-uml\figures\Circle.h"
 #include <cmath>
-
 #include <string>
+
 TEST_CASE("Line contructors") {
 	Line line1(3, 6, 7);
 	Line line2(std::pair<double, double>(0, -7 / 6.0), std::pair<double, double>(-7 / 3.0, 0));
@@ -100,31 +100,24 @@ TEST_CASE("Reflection of line over line") {
 	REQUIRE(line2 == line3);
 }
 
+TEST_CASE("Inversion") {
+	//TODO: this test case has to be extended
+	Circle circle(4, 5, 3);
+	Circle cur_circle = circle;
+	Line ans;
 
-//TODO:write inversion test case
+	SECTION("Inversing into itself") {
+		ans = circle.inverse(circle);
+		REQUIRE(ans == Line());
+		REQUIRE(cur_circle == circle);
+	}
 
-//TEST_CASE("Inversion") {
-//	Circle circle1(7, 3, 26);
-//	Circle circle2(5, 6, 5);
-//	Line line1(3, 6, 7);
-//
-//	SECTION("Circle inversion") {
-//		Circle circle = circle2;
-//
-//		/*Line res = circle2.inverse(circle1);
-//		circle2 = .inverse(circle1);*/
-//		circle2.inverse(circle1);
-//		circle2.inverse(circle1);
-//
-//
-//		REQUIRE(circle2 == circle);
-//
-//	}
-//
-//	//SECTION("Line inversion") {
-//	//	Line line = line1;
-//	//	line1.inverse(circle1);
-//	//	line1.inverse(circle1);
-//	//	REQUIRE(line == line1);
-//	//}
-//}
+	SECTION("Inversing relatively to the circle, the center of which lies on the current circle") {
+		//TODO: inversion have to be fixed for special line (when one of the coefs = 0)
+		Circle circle1(6.4, 3.2, 4);
+		ans = circle.inverse(circle1);
+		REQUIRE(ans != Line());
+		circle = ans.inverse(circle1);
+		REQUIRE(circle == cur_circle);
+	}
+}

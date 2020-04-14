@@ -23,6 +23,19 @@ Line::Line(std::pair<double, double> fPoint, std::pair<double, double> sPoint) {
 	a = y2 - y1;
 	b = x1 - x2;
 	c = x2 * y1 - x1 * y2;
+	undef = false;
+}
+
+Line::Line(const Line& to_copy) {
+	if (to_copy.undef) {
+		undef = true;
+	}
+	else {
+		a = to_copy.a;
+		b = to_copy.b;
+		c = to_copy.c;
+		undef = false;
+	}
 }
 
 /*!
@@ -148,6 +161,15 @@ std::string Line::to_string() {
 \return True value if they are equal and false value otherwise
 */
 bool Line::operator==(const Line& to_compare) const{
+	if (to_compare.undef) {
+		if (undef) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	double a1 = to_compare.a, b1 = to_compare.b, c1 = to_compare.c;
 	bool ans = 1;
 

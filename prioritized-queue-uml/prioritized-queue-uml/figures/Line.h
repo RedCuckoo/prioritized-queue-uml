@@ -23,6 +23,7 @@
 class Line : public Figure {
 private:
 	double a, b, c;
+	bool undef;
 
 	/*!
 	\brief Friended class Circle
@@ -46,7 +47,7 @@ public:
 	\brief Default constructor
 	\details Creates an uninitialized object of class Line, doesn't store any data, only for comparison
 	*/
-	Line() = default;
+	Line() : undef(true){	 }
 
 	/*!
 	\brief Constructor
@@ -55,10 +56,10 @@ public:
 	\param [in] b_coef Coeficient near y
 	\param [in] c_coef Coeficient without variable
 	*/
-	Line(double a_coef, double b_coef, double c_coef) : a(a_coef), b(b_coef), c(c_coef) {		}
+	Line(double a_coef, double b_coef, double c_coef) : a(a_coef), b(b_coef), c(c_coef), undef(false) {		}
 
 	Line(std::pair<double, double>, std::pair<double, double>);
-	Line(const Line& to_copy) : a(to_copy.a), b(to_copy.b), c(to_copy.c) {		}
+	Line(const Line& to_copy);
 
 	std::vector<std::pair<double, double>> intersection(const Circle& to_find);
 	std::vector<std::pair<double, double>> intersection(const Line& to_find);
