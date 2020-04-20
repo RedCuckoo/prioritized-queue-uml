@@ -497,3 +497,5 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
+/Catch2
+/side_notes.txt

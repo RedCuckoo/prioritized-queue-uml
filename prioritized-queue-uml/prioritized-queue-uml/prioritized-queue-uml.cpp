@@ -59,4 +59,6 @@ int main() {
 	//	std::cout << x << " ";
 	//}
 
+	TreePriorQueue<int>a;
+	std::cout << a.to_string();
 }

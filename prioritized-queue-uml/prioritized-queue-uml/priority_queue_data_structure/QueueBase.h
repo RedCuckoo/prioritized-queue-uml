@@ -46,6 +46,7 @@ protected:
 	void fixPriorities();
 	//unsigned int maxPrior;
 public:
+    QueueBase() = default;
 	void push(node_type elem, unsigned int prior);
 	bool empty();
 	void pop();
